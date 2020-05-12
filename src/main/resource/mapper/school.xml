@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.SchoolDAO">
+	<resultMap type="school" id="schoolMap">
+		<id property="schoolid" column="schoolid" />
+		<result property="schoolname" column="schoolname" />
+		<result property="cityid" column="cityid" />
+		<result property="image" column="image" />
+		<result property="addtime" column="addtime" />
+		<result property="hits" column="hits" />
+		<result property="asignnum" column="asignnum" />
+		<result property="contents" column="contents" />
+		<result property="cityname" column="cityname" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertSchool" parameterType="school">
+		insert into school(schoolid , schoolname , cityid , image , addtime , hits ,
+		asignnum , contents ) values(#{schoolid} , #{schoolname} , #{cityid} ,
+		#{image} , #{addtime} , #{hits} , #{asignnum} , #{contents} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateSchool" parameterType="school">
+		update school set schoolname=#{schoolname} , cityid=#{cityid} ,
+		image=#{image} , addtime=#{addtime} , hits=#{hits} ,
+		asignnum=#{asignnum} , contents=#{contents} where schoolid=#{schoolid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteSchool" parameterType="String">
+		delete from school where
+		schoolid = #{schoolid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllSchool" resultMap="schoolMap">
+		select a.* , b.cityname from school a , city b where a.cityid = b.cityid
+		order by schoolid desc
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getSchoolById" parameterType="String"
+		resultMap="schoolMap">
+		select a.* , b.cityname from school a , city b where a.cityid = b.cityid and
+		schoolid=#{schoolid} order by schoolid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getSchoolByCond" parameterType="school"
+		resultMap="schoolMap">
+		select a.* , b.cityname from school a , city b where a.cityid =
+		b.cityid
+		<if test="schoolname != null and '' != schoolname">
+			and a.schoolname = #{schoolname}
+		</if>
+		<if test="cityid != null and '' != cityid">
+			and a.cityid = #{cityid}
+		</if>
+		<if test="image != null and '' != image">
+			and a.image = #{image}
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime = #{addtime}
+		</if>
+		<if test="hits != null and '' != hits">
+			and a.hits = #{hits}
+		</if>
+		<if test="asignnum != null and '' != asignnum">
+			and a.asignnum = #{asignnum}
+		</if>
+		<if test="contents != null and '' != contents">
+			and a.contents = #{contents}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getSchoolByLike" parameterType="school"
+		resultMap="schoolMap">
+		select a.* , b.cityname from school a , city b where a.cityid =
+		b.cityid
+		<if test="schoolname != null and '' != schoolname">
+			and a.schoolname like CONCAT('%', CONCAT(#{schoolname},
+			'%'))
+		</if>
+		<if test="cityid != null and '' != cityid">
+			and b.cityname like CONCAT('%', CONCAT(#{cityid}, '%'))
+		</if>
+		<if test="image != null and '' != image">
+			and a.image like CONCAT('%', CONCAT(#{image}, '%'))
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime like CONCAT('%', CONCAT(#{addtime}, '%'))
+		</if>
+		<if test="hits != null and '' != hits">
+			and a.hits like CONCAT('%', CONCAT(#{hits}, '%'))
+		</if>
+		<if test="asignnum != null and '' != asignnum">
+			and a.asignnum like CONCAT('%', CONCAT(#{asignnum}, '%'))
+		</if>
+		<if test="contents != null and '' != contents">
+			and a.contents like CONCAT('%', CONCAT(#{contents}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.FilesDAO">
+	<resultMap type="files" id="filesMap">
+		<id property="filesid" column="filesid" />
+		<result property="filesname" column="filesname" />
+		<result property="fileurl" column="fileurl" />
+		<result property="addtime" column="addtime" />
+		<result property="memo" column="memo" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertFiles" parameterType="files">
+		insert into files(filesid , filesname , fileurl , addtime , memo )
+		values(#{filesid} , #{filesname} , #{fileurl} , #{addtime} , #{memo} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateFiles" parameterType="files">
+		update files set filesname=#{filesname} , fileurl=#{fileurl} ,
+		addtime=#{addtime} , memo=#{memo} where filesid=#{filesid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteFiles" parameterType="String">
+		delete from files where
+		filesid = #{filesid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllFiles" resultMap="filesMap">
+		select a.* from files a order by filesid desc
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getFilesById" parameterType="String"
+		resultMap="filesMap">
+		select a.* from files a where filesid=#{filesid} order by filesid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getFilesByCond" parameterType="files"
+		resultMap="filesMap">
+		select a.* from files a where 1=1
+		<if test="filesname != null and '' != filesname">
+			and a.filesname = #{filesname}
+		</if>
+		<if test="fileurl != null and '' != fileurl">
+			and a.fileurl = #{fileurl}
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime = #{addtime}
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo = #{memo}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getFilesByLike" parameterType="files"
+		resultMap="filesMap">
+		select a.* from files a where 1=1
+		<if test="filesname != null and '' != filesname">
+			and a.filesname like CONCAT('%', CONCAT(#{filesname},
+			'%'))
+		</if>
+		<if test="fileurl != null and '' != fileurl">
+			and a.fileurl like CONCAT('%', CONCAT(#{fileurl}, '%'))
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime like CONCAT('%', CONCAT(#{addtime}, '%'))
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo like CONCAT('%', CONCAT(#{memo}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

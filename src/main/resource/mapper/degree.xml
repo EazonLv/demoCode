@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.DegreeDAO">
+	<resultMap type="degree" id="degreeMap">
+		<id property="degreeid" column="degreeid" />
+		<result property="degreename" column="degreename" />
+		<result property="price" column="price" />
+		<result property="addtime" column="addtime" />
+		<result property="memo" column="memo" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertDegree" parameterType="degree">
+		insert into degree(degreeid , degreename , price , addtime , memo )
+		values(#{degreeid} , #{degreename} , #{price} , #{addtime} , #{memo} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateDegree" parameterType="degree">
+		update degree set degreename=#{degreename} , price=#{price} ,
+		addtime=#{addtime} , memo=#{memo} where degreeid=#{degreeid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteDegree" parameterType="String">
+		delete from degree where
+		degreeid = #{degreeid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllDegree" resultMap="degreeMap">
+		select a.* from degree a order by degreeid desc
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getDegreeById" parameterType="String"
+		resultMap="degreeMap">
+		select a.* from degree a where degreeid=#{degreeid} order by degreeid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getDegreeByCond" parameterType="degree"
+		resultMap="degreeMap">
+		select a.* from degree a where 1=1
+		<if test="degreename != null and '' != degreename">
+			and a.degreename = #{degreename}
+		</if>
+		<if test="price != null and '' != price">
+			and a.price = #{price}
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime = #{addtime}
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo = #{memo}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getDegreeByLike" parameterType="degree"
+		resultMap="degreeMap">
+		select a.* from degree a where 1=1
+		<if test="degreename != null and '' != degreename">
+			and a.degreename like CONCAT('%', CONCAT(#{degreename},
+			'%'))
+		</if>
+		<if test="price != null and '' != price">
+			and a.price like CONCAT('%', CONCAT(#{price}, '%'))
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime like CONCAT('%', CONCAT(#{addtime}, '%'))
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo like CONCAT('%', CONCAT(#{memo}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
